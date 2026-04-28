@@ -1,0 +1,3231 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: PET Store
+meta:
+  id: wrk_740341ab0b7e4264a019a4f8d128f095
+  created: 1776601602401
+  modified: 1776601602401
+  description: ""
+collection:
+  - name: POST /pet
+    meta:
+      id: fld_8e1a52560f764e428b5b3e8db9201e8e
+      created: 1776601766654
+      modified: 1777386586513
+      sortKey: -1776619018171
+      description: Добавление нового питомца в магазин
+    children:
+      - name: Positive
+        meta:
+          id: fld_0bd71220381b47b68b981de3368370f4
+          created: 1776612283995
+          modified: 1777386457587
+          sortKey: -1776612340935
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet"
+            name: name и photoUrls + id
+            meta:
+              id: req_d710cfc60e9d4089ae5a4af0b0403fdc
+              created: 1776602338228
+              modified: 1776860599880
+              isPrivate: false
+              description: ""
+              sortKey: -1776612299246
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": 783573485,
+                  "name": "Robert",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                const jsonBody = insomnia.response.json();
+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+
+                insomnia.collectionVariables.set("last_pet_id", jsonBody.id);
+
+
+
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/9223372036854775807"
+            name: "Проверка создания "
+            meta:
+              id: req_7fb0d27b544d419b91df0abb77dec89c
+              created: 1776602653183
+              modified: 1777380244197
+              isPrivate: false
+              description: выдает нам дефолтную запись, значит наш питомец Robert потеряется
+                при сл запросе без id, так как для разных записей генерировался
+                один и тот же id
+              sortKey: -1776735187925.5
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: name и photoUrls + id + category + tags + status
+            meta:
+              id: req_3d78483ef75148b0ab3af0f0ff273a80
+              created: 1776603272989
+              modified: 1776861170487
+              isPrivate: false
+              description: При передаче всех вариантов допустимых статусов (available,
+                pending, sold) питомец создается
+              sortKey: -1776612299046
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": {{ _.last_pet_id }},
+                	"category": {
+                    "id": 123,
+                    "name": "Dog"
+                  },
+                  "name": "Robert",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ],
+                	"tags": [
+                    {
+                      "id": 15064,
+                      "name": "friendly"
+                    },
+                    {
+                      "id": 25432,
+                      "name": "corgi"
+                		}
+                  ],
+                	"status": "sold"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: name и photoUrls + id + category
+            meta:
+              id: req_aebef302fddb4869ba5dcc441a43e447
+              created: 1776787546527
+              modified: 1776861152307
+              isPrivate: false
+              description: ""
+              sortKey: -1776612299196
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": {{ _.last_pet_id }},
+                	"category": {
+                    "id": 123,
+                    "name": "Dog"
+                  },
+                  "name": "Robert",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: name и photoUrls + id + category + tags
+            meta:
+              id: req_c0adae58511746e1bb6532c3d67c2fb2
+              created: 1776787582032
+              modified: 1777386232737
+              isPrivate: false
+              description: ""
+              sortKey: -1776612299171
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": {{ _.last_pet_id }},
+                	"category": {
+                    "id": 123,
+                    "name": "Dog"
+                  },
+                  "name": "Robert",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ],
+                	"tags": [
+                    {
+                      "id": 15064,
+                      "name": "friendly"
+                    },
+                    {
+                      "id": 25432,
+                      "name": "corgi"
+                		}
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Питомец с обязательными полями name photoUrls
+            meta:
+              id: req_d9a7a545625645b09446c9ade0bf72c2
+              created: 1776858076580
+              modified: 1777398887261
+              isPrivate: false
+              description: генерирует одинаковые id для разных объектов, созданный объекты не
+                может быть получен по этому идентификатору
+              sortKey: -1776858076580
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                  "name": "Robert",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: application/json
+            scripts:
+              afterResponse: |-
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: "Проверка создания "
+            meta:
+              id: req_b354b49ea0894784a8fe1594127ec174
+              created: 1776860309390
+              modified: 1777380431890
+              isPrivate: false
+              description: как и ожидалось, при передаче id питомец создался
+              sortKey: -1776612299221
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Negative
+        meta:
+          id: fld_18fc076b08824dd19698ae188dea1802
+          created: 1776612340835
+          modified: 1777386586513
+          sortKey: -1776612340835
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet"
+            name: Поле name пустая строка
+            meta:
+              id: req_4466ea3d5cf94f20ba36ca4b63a61112
+              created: 1776603991339
+              modified: 1777380940656
+              isPrivate: false
+              description: Пустое значение обязательного поля name считается невалидным и
+                должно отклоняться
+              sortKey: -1776612359992
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": 70774656,
+                  "name": "",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Обязательное поле name отсутствует
+            meta:
+              id: req_0bd1f475a1bd4352a8b5eaeceb1ae15f
+              created: 1776604288848
+              modified: 1777398902177
+              isPrivate: false
+              description: принимает POST-запрос без обязательного поля name и успешно создаёт
+                сущность, что нарушает требования к обязательным полям и
+                приводит к созданию неполных объектов. Это может привести к
+                неконсистентности данных и ошибкам при дальнейшей работе с
+                сущностью
+              sortKey: -1776612360092
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": 70704673,
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Обязательное поле photoUrls отсутствует
+            meta:
+              id: req_f6783e6fbabd4b0e8f5e9e3111dcfba3
+              created: 1776604476214
+              modified: 1777398907662
+              isPrivate: false
+              description: позволяет создать сущность без обязательного поля photoUrls, что
+                указывает на отсутствие валидации обязательных полей
+              sortKey: -1776612360042
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"id": 1090865,
+                  "name": "Marsel"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Поле photoUrls ссылки не на фото
+            meta:
+              id: req_7fecc0ce3274481cb4f091b9576cb53c
+              created: 1776604660775
+              modified: 1777398992455
+              isPrivate: false
+              description: >-
+                Поле photoUrls должно содержать ссылки на изображения,
+                переданное значение не соответствует ожидаемому типу данных
+
+
+                не валидирует содержимое поля photoUrls
+              sortKey: -1776612359948.25
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"id": 1490865,
+                  "name": "КотикПервый",
+                	"photoUrls": ["https://www.apple.com/"]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Недопустимое значение поля status
+            meta:
+              id: req_f8a52aed1f41463c88388b50289e597b
+              created: 1776604781645
+              modified: 1777385017663
+              isPrivate: false
+              description: >-
+                Поле status имеет только три допустимых значения: available,
+                pending, sold.
+
+
+                Создание питомца со значением "status": "DOG" недопустимо
+              sortKey: -1776612359392
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+
+                  "id": 50505050,
+                  "name": "Harry",
+                  "photoUrls": [
+                    "https://ethnomir.ru/articles/sobaka-porody-korgi/"
+                  ],
+                  "status": "DOG"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: id отрицательное число
+            meta:
+              id: req_b8142dc12761482bbea9e0f21d64a2e2
+              created: 1776606558136
+              modified: 1776862567231
+              isPrivate: false
+              description: обычно ID должен быть положительным числом (id > 0) и сервер должке
+                отклонять такой запрос, но в нашем случае API создаёт сущности с
+                одинаковым идентификатором, что нарушает уникальность и делает
+                невозможной корректную идентификацию объектов
+              sortKey: -1776612359292
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+
+                  "id": -1,
+                  "name": "Отрицательный",
+                  "photoUrls": [
+                    "https://ethnomir.ru/articles/sobaka-porody-korgi/"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Поле name длинная строка
+            meta:
+              id: req_17133bbc9c4b465fb144e32eac3c0e96
+              created: 1776606858489
+              modified: 1776862340075
+              isPrivate: false
+              description: >-
+                Поле name содержит строку длиной 8000 символов, что является
+                избыточным и может привести к проблемам с производительностью,
+                хранением данных и качеством данных.
+
+                Необходимо ограничить длину поля (например, до 255 символов)
+              sortKey: -1776612359967
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+
+                  "id": 1235414,
+                  "name": "BlRPAlNQwIsDlycyaflsMDxTPdZYbxZcaLEWeUFkYPEzHXmaRwhXiJfyJyCsMBVmlSclJryrFkttsdGlgpwFTXGjmcLoKmXlCKMyEnRnZWbiZLwyChsKlriATfnxvrOqSLeusdxSjsNLdZpMQnVMdSFEaYZSJEvHpMDoPGLqtxAfEkitvvAmPkbplsjQSNlrwMoUYUDnHNtPgLdojWOzHWvXbkOoBkMGnmyMfYzxgtRZnPXygdxusKcyrcNKTUmTuZzYMOuvoigMgmrFjIQoZjNEzYMcOZiVhHrSWCEtrQsUYxwwuBZgnqxcdjLhSvOIpHJLUJTwokFIqSYwPXFliuezKrAejBLvcltjPJVCrXHTokKTuVqGLZIZagiHDMbINCsiwxuWRjdkZFgvjZeoFbOswpvyhOVEVPnxjTpnGMGPtvlOqAgHrUJwDCrnGVPhJQLmuGPuisVdimBCyHHQPKOcYlzaMzFzAIkRgonxjKDNyNrvaHIweiIfkdJWeQMkuCdkUGgmYBWqgBdXcqGvsbrodVuNnJJbOZuHCOfEgDfVXlDGpYujbcxvpyMpPGOrwdhHDlPXxgLXBaTGthJdnpSTbyMAiDvViEgTIerZGNoZFRXNDurtKfMoYoslLKUQxUAlrUyoPFJdCbXEMtFuaKZspejDErDyKDecueRqNRWyyYZorLkAnzNXlBScTCNnhjNPzeOAggeOGjXznCtzyjySLOfgaUdrVePeeruTsToMcmWhRnpNyLiNscSESAwWoVfgjqCIOLWEhrYXIbIdsoFglckWlEeXBCifNFgkoNENdBJVoDjXxGoieziiShshPXIsyNffNqJUhTFPkoYEriVsPFdWIuDEaTEcYLNgIZHztyPLdfqnxhfpNZgJXusFrttQoPXoihxZHTjexcyzbzNHcjASMQZcTKbexoioYJaGOWwkihmyZpRVayIkAUPdBBvmywGoQrfzuBvuwJsIzKNqiKVqyssdJQtaztrHBlRPAlNQwIsDlycyaflsMDxTPdZYbxZcaLEWeUFkYPEzHXmaRwhXiJfyJyCsMBVmlSclJryrFkttsdGlgpwFTXGjmcLoKmXlCKMyEnRnZWbiZLwyChsKlriATfnxvrOqSLeusdxSjsNLdZpMQnVMdSFEaYZSJEvHpMDoPGLqtxAfEkitvvAmPkbplsjQSNlrwMoUYUDnHNtPgLdojWOzHWvXbkOoBkMGnmyMfYzxgtRZnPXygdxusKcyrcNKTUmTuZzYMOuvoigMgmrFjIQoZjNEzYMcOZiVhHrSWCEtrQsUYxwwuBZgnqxcdjLhSvOIpHJLUJTwokFIqSYwPXFliuezKrAejBLvcltjPJVCrXHTokKTuVqGLZIZagiHDMbINCsiwxuWRjdkZFgvjZeoFbOswpvyhOVEVPnxjTpnGMGPtvlOqAgHrUJwDCrnGVPhJQLmuGPuisVdimBCyHHQPKOcYlzaMzFzAIkRgonxjKDNyNrvaHIweiIfkdJWeQMkuCdkUGgmYBWqgBdXcqGvsbrodVuNnJJbOZuHCOfEgDfVXlDGpYujbcxvpyMpPGOrwdhHDlPXxgLXBaTGthJdnpSTbyMAiDvViEgTIerZGNoZFRXNDurtKfMoYoslLKUQxUAlrUyoPFJdCbXEMtFuaKZspejDErDyKDecueRqNRWyyYZorLkAnzNXlBScTCNnhjNPzeOAggeOGjXznCtzyjySLOfgaUdrVePeeruTsToMcmWhRnpNyLiNscSESAwWoVfgjqCIOLWEhrYXIbIdsoFglckWlEeXBCifNFgkoNENdBJVoDjXxGoieziiShshPXIsyNffNqJUhTFPkoYEriVsPFdWIuDEaTEcYLNgIZHztyPLdfqnxhfpNZgJXusFrttQoPXoihxZHTjexcyzbzNHcjASMQZcTKbexoioYJaGOWwkihmyZpRVayIkAUPdBBvmywGoQrfzuBvuwJsIzKNqiKVqyssdJQtaztrHBlRPAlNQwIsDlycyaflsMDxTPdZYbxZcaLEWeUFkYPEzHXmaRwhXiJfyJyCsMBVmlSclJryrFkttsdGlgpwFTXGjmcLoKmXlCKMyEnRnZWbiZLwyChsKlriATfnxvrOqSLeusdxSjsNLdZpMQnVMdSFEaYZSJEvHpMDoPGLqtxAfEkitvvAmPkbplsjQSNlrwMoUYUDnHNtPgLdojWOzHWvXbkOoBkMGnmyMfYzxgtRZnPXygdxusKcyrcNKTUmTuZzYMOuvoigMgmrFjIQoZjNEzYMcOZiVhHrSWCEtrQsUYxwwuBZgnqxcdjLhSvOIpHJLUJTwokFIqSYwPXFliuezKrAejBLvcltjPJVCrXHTokKTuVqGLZIZagiHDMbINCsiwxuWRjdkZFgvjZeoFbOswpvyhOVEVPnxjTpnGMGPtvlOqAgHrUJwDCrnGVPhJQLmuGPuisVdimBCyHHQPKOcYlzaMzFzAIkRgonxjKDNyNrvaHIweiIfkdJWeQMkuCdkUGgmYBWqgBdXcqGvsbrodVuNnJJbOZuHCOfEgDfVXlDGpYujbcxvpyMpPGOrwdhHDlPXxgLXBaTGthJdnpSTbyMAiDvViEgTIerZGNoZFRXNDurtKfMoYoslLKUQxUAlrUyoPFJdCbXEMtFuaKZspejDErDyKDecueRqNRWyyYZorLkAnzNXlBScTCNnhjNPzeOAggeOGjXznCtzyjySLOfgaUdrVePeeruTsToMcmWhRnpNyLiNscSESAwWoVfgjqCIOLWEhrYXIbIdsoFglckWlEeXBCifNFgkoNENdBJVoDjXxGoieziiShshPXIsyNffNqJUhTFPkoYEriVsPFdWIuDEaTEcYLNgIZHztyPLdfqnxhfpNZgJXusFrttQoPXoihxZHTjexcyzbzNHcjASMQZcTKbexoioYJaGOWwkihmyZpRVayIkAUPdBBvmywGoQrfzuBvuwJsIzKNqiKVqyssdJQtaztrHBlRPAlNQwIsDlycyaflsMDxTPdZYbxZcaLEWeUFkYPEzHXmaRwhXiJfyJyCsMBVmlSclJryrFkttsdGlgpwFTXGjmcLoKmXlCKMyEnRnZWbiZLwyChsKlriATfnxvrOqSLeusdxSjsNLdZpMQnVMdSFEaYZSJEvHpMDoPGLqtxAfEkitvvAmPkbplsjQSNlrwMoUYUDnHNtPgLdojWOzHWvXbkOoBkMGnmyMfYzxgtRZnPXygdxusKcyrcNKTUmTuZzYMOuvoigMgmrFjIQoZjNEzYMcOZiVhHrSWCEtrQsUYxwwuBZgnqxcdjLhSvOIpHJLUJTwokFIqSYwPXFliuezKrAejBLvcltjPJVCrXHTokKTuVqGLZIZagiHDMbINCsiwxuWRjdkZFgvjZeoFbOswpvyhOVEVPnxjTpnGMGPtvlOqAgHrUJwDCrnGVPhJQLmuGPuisVdimBCyHHQPKOcYlzaMzFzAIkRgonxjKDNyNrvaHIweiIfkdJWeQMkuCdkUGgmYBWqgBdXcqGvsbrodVuNnJJbOZuHCOfEgDfVXlDGpYujbcxvpyMpPGOrwdhHDlPXxgLXBaTGthJdnpSTbyMAiDvViEgTIerZGNoZFRXNDurtKfMoYoslLKUQxUAlrUyoPFJdCbXEMtFuaKZspejDErDyKDecueRqNRWyyYZorLkAnzNXlBScTCNnhjNPzeOAggeOGjXznCtzyjySLOfgaUdrVePeeruTsToMcmWhRnpNyLiNscSESAwWoVfgjqCIOLWEhrYXIbIdsoFglckWlEeXBCifNFgkoNENdBJVoDjXxGoieziiShshPXIsyNffNqJUhTFPkoYEriVsPFdWIuDEaTEcYLNgIZHztyPLdfqnxhfpNZgJXusFrttQoPXoihxZHTjexcyzbzNHcjASMQZcTKbexoioYJaGOWwkihmyZpRVayIkAUPdBBvmywGoQrfzuBvuwJsIzKNqiKVqyssdJQtaztrHBlRPAlNQwIsDlycyaflsMDxTPdZYbxZcaLEWeUFkYPEzHXmaRwhXiJfyJyCsMBVmlSclJryrFkttsdGlgpwFTXGjmcLoKmXlCKMyEnRnZWbiZLwyChsKlriATfnxvrOqSLeusdxSjsNLdZpMQnVMdSFEaYZSJEvHpMDoPGLqtxAfEkitvvAmPkbplsjQSNlrwMoUYUDnHNtPgLdojWOzHWvXbkOoBkMGnmyMfYzxgtRZnPXygdxusKcyrcNKTUmTuZzYMOuvoigMgmrFjIQoZjNEzYMcOZiVhHrSWCEtrQsUYxwwuBZgnqxcdjLhSvOIpHJLUJTwokFIqSYwPXFliuezKrAejBLvcltjPJVCrXHTokKTuVqGLZIZagiHDMbINCsiwxuWRjdkZFgvjZeoFbOswpvyhOVEVPnxjTpnGMGPtvlOqAgHrUJwDCrnGVPhJQLmuGPuisVdimBCyHHQPKOcYlzaMzFzAIkRgonxjKDNyNrvaHIweiIfkdJWeQMkuCdkUGgmYBWqgBdXcqGvsbrodVuNnJJbOZuHCOfEgDfVXlDGpYujbcxvpyMpPGOrwdhHDlPXxgLXBaTGthJdnpSTbyMAiDvViEgTIerZGNoZFRXNDurtKfMoYoslLKUQxUAlrUyoPFJdCbXEMtFuaKZspejDErDyKDecueRqNRWyyYZorLkAnzNXlBScTCNnhjNPzeOAggeOGjXznCtzyjySLOfgaUdrVePeeruTsToMcmWhRnpNyLiNscSESAwWoVfgjqCIOLWEhrYXIbIdsoFglckWlEeXBCifNFgkoNENdBJVoDjXxGoieziiShshPXIsyNffNqJUhTFPkoYEriVsPFdWIuDEaTEcYLNgIZHztyPLdfqnxhfpNZgJXusFrttQoPXoihxZHTjexcyzbzNHcjASMQZcTKbexoioYJaGOWwkihmyZpRVayIkAUPdBBvmywGoQrfzuBvuwJsIzKNqiKVqyssdJQtaztrHBlRPAlNQwIsDlycyaflsMDxTPdZYbxZcaLEWeUFkYPEzHXmaRwhXiJfyJyCsMBVmlSclJryrFkttsdGlgpwFTXGjmcLoKmXlCKMyEnRnZWbiZLwyChsKlriATfnxvrOqSLeusdxSjsNLdZpMQnVMdSFEaYZSJEvHpMDoPGLqtxAfEkitvvAmPkbplsjQSNlrwMoUYUDnHNtPgLdojWOzHWvXbkOoBkMGnmyMfYzxgtRZnPXygdxusKcyrcNKTUmTuZzYMOuvoigMgmrFjIQoZjNEzYMcOZiVhHrSWCEtrQsUYxwwuBZgnqxcdjLhSvOIpHJLUJTwokFIqSYwPXFliuezKrAejBLvcltjPJVCrXHTokKTuVqGLZIZagiHDMbINCsiwxuWRjdkZFgvjZeoFbOswpvyhOVEVPnxjTpnGMGPtvlOqAgHrUJwDCrnGVPhJQLmuGPuisVdimBCyHHQPKOcYlzaMzFzAIkRgonxjKDNyNrvaHIweiIfkdJWeQMkuCdkUGgmYBWqgBdXcqGvsbrodVuNnJJbOZuHCOfEgDfVXlDGpYujbcxvpyMpPGOrwdhHDlPXxgLXBaTGthJdnpSTbyMAiDvViEgTIerZGNoZFRXNDurtKfMoYoslLKUQxUAlrUyoPFJdCbXEMtFuaKZspejDErDyKDecueRqNRWyyYZorLkAnzNXlBScTCNnhjNPzeOAggeOGjXznCtzyjySLOfgaUdrVePeeruTsToMcmWhRnpNyLiNscSESAwWoVfgjqCIOLWEhrYXIbIdsoFglckWlEeXBCifNFgkoNENdBJVoDjXxGoieziiShshPXIsyNffNqJUhTFPkoYEriVsPFdWIuDEaTEcYLNgIZHztyPLdfqnxhfpNZgJXusFrttQoPXoihxZHTjexcyzbzNHcjASMQZcTKbexoioYJaGOWwkihmyZpRVayIkAUPdBBvmywGoQrfzuBvuwJsIzKNqiKVqyssdJQtaztrHBlRPAlNQwIsDlycyaflsMDxTPdZYbxZcaLEWeUFkYPEzHXmaRwhXiJfyJyCsMBVmlSclJryrFkttsdGlgpwFTXGjmcLoKmXlCKMyEnRnZWbiZLwyChsKlriATfnxvrOqSLeusdxSjsNLdZpMQnVMdSFEaYZSJEvHpMDoPGLqtxAfEkitvvAmPkbplsjQSNlrwMoUYUDnHNtPgLdojWOzHWvXbkOoBkMGnmyMfYzxgtRZnPXygdxusKcyrcNKTUmTuZzYMOuvoigMgmrFjIQoZjNEzYMcOZiVhHrSWCEtrQsUYxwwuBZgnqxcdjLhSvOIpHJLUJTwokFIqSYwPXFliuezKrAejBLvcltjPJVCrXHTokKTuVqGLZIZagiHDMbINCsiwxuWRjdkZFgvjZeoFbOswpvyhOVEVPnxjTpnGMGPtvlOqAgHrUJwDCrnGVPhJQLmuGPuisVdimBCyHHQPKOcYlzaMzFzAIkRgonxjKDNyNrvaHIweiIfkdJWeQMkuCdkUGgmYBWqgBdXcqGvsbrodVuNnJJbOZuHCOfEgDfVXlDGpYujbcxvpyMpPGOrwdhHDlPXxgLXBaTGthJdnpSTbyMAiDvViEgTIerZGNoZFRXNDurtKfMoYoslLKUQxUAlrUyoPFJdCbXEMtFuaKZspejDErDyKDecueRqNRWyyYZorLkAnzNXlBScTCNnhjNPzeOAggeOGjXznCtzyjySLOfgaUdrVePeeruTsToMcmWhRnpNyLiNscSESAwWoVfgjqCIOLWEhrYXIbIdsoFglckWlEeXBCifNFgkoNENdBJVoDjXxGoieziiShshPXIsyNffNqJUhTFPkoYEriVsPFdWIuDEaTEcYLNgIZHztyPLdfqnxhfpNZgJXusFrttQoPXoihxZHTjexcyzbzNHcjASMQZcTKbexoioYJaGOWwkihmyZpRVayIkAUPdBBvmywGoQrfzuBvuwJsIzKNqiKVqyssdJQtaztrHBlRPAlNQwIsDlycyaflsMDxTPdZYbxZcaLEWeUFkYPEzHXmaRwhXiJfyJyCsMBVmlSclJryrFkttsdGlgpwFTXGjmcLoKmXlCKMyEnRnZWbiZLwyChsKlriATfnxvrOqSLeusdxSjsNLdZpMQnVMdSFEaYZSJEvHpMDoPGLqtxAfEkitvvAmPkbplsjQSNlrwMoUYUDnHNtPgLdojWOzHWvXbkOoBkMGnmyMfYzxgtRZnPXygdxusKcyrcNKTUmTuZzYMOuvoigMgmrFjIQoZjNEzYMcOZiVhHrSWCEtrQsUYxwwuBZgnqxcdjLhSvOIpHJLUJTwokFIqSYwPXFliuezKrAejBLvcltjPJVCrXHTokKTuVqGLZIZagiHDMbINCsiwxuWRjdkZFgvjZeoFbOswpvyhOVEVPnxjTpnGMGPtvlOqAgHrUJwDCrnGVPhJQLmuGPuisVdimBCyHHQPKOcYlzaMzFzAIkRgonxjKDNyNrvaHIweiIfkdJWeQMkuCdkUGgmYBWqgBdXcqGvsbrodVuNnJJbOZuHCOfEgDfVXlDGpYujbcxvpyMpPGOrwdhHDlPXxgLXBaTGthJdnpSTbyMAiDvViEgTIerZGNoZFRXNDurtKfMoYoslLKUQxUAlrUyoPFJdCbXEMtFuaKZspejDErDyKDecueRqNRWyyYZorLkAnzNXlBScTCNnhjNPzeOAggeOGjXznCtzyjySLOfgaUdrVePeeruTsToMcmWhRnpNyLiNscSESAwWoVfgjqCIOLWEhrYXIbIdsoFglckWlEeXBCifNFgkoNENdBJVoDjXxGoieziiShshPXIsyNffNqJUhTFPkoYEriVsPFdWIuDEaTEcYLNgIZHztyPLdfqnxhfpNZgJXusFrttQoPXoihxZHTjexcyzbzNHcjASMQZcTKbexoioYJaGOWwkihmyZpRVayIkAUPdBBvmywGoQrfzuBvuwJsIzKNqiKVqyssdJQtaztrH",
+                  "photoUrls": [
+                    "https://ethnomir.ru/articles/sobaka-porody-korgi/"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |-
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Поле name спецсимволы
+            meta:
+              id: req_7fe178ecdfe749829e923b369cf22efb
+              created: 1776607146036
+              modified: 1776873519355
+              isPrivate: false
+              description: Предполагается, что поле name должно содержать только допустимые
+                символы (буквы, дефисы, пробелы), поэтому наличие специальных
+                символов считается невалидным вводом
+              sortKey: -1776612359954.5
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+
+                  "id": 789414,
+                  "name": "G@W[mynpw",
+                  "photoUrls": [
+                    "https://ethnomir.ru/articles/sobaka-porody-korgi/"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |-
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Создание питомца с существующим id
+            meta:
+              id: req_421abc738c24426fa431d9fa0866667f
+              created: 1776608763256
+              modified: 1777399058699
+              isPrivate: false
+              description: >-
+                Повторное использование id при создании сущности должно
+                приводить к ошибке
+
+
+                Однако данные перезаписываютмя и это может привести к потере
+                данных и делает работу API непредсказуемой 
+              sortKey: -1776612358992
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": {{ _.last_pet_id }},
+                  "name": "Robert Exist Dog",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Пустое тело запроса
+            meta:
+              id: req_2bfb3c5ec22b41b897cc21e2f25aa505
+              created: 1776685074046
+              modified: 1776862238336
+              isPrivate: false
+              description: >+
+                Пустой JSON {} , отсутсвуют обязательные поля - сервер должен
+                отклонять такие запросы, отсутсвуют проверки на обязательные
+                поля
+
+              sortKey: -1776612360142
+            method: POST
+            body:
+              mimeType: application/json
+              text: "{}"
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: id строка
+            meta:
+              id: req_dd31d09dec6c45f2b3016b58de5281a2
+              created: 1776862656770
+              modified: 1777399014876
+              isPrivate: false
+              description: >+
+                Невалидный тип параметра должен обрабатываться как ошибка
+                клиента, однако возвращает серверную ошибку, что указывает на
+                отсутствие корректной валидации входных данных
+
+              sortKey: -1776612359142
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+
+                  "id": "abc",
+                  "name": "Буквенный",
+                  "photoUrls": [
+                    "https://ethnomir.ru/articles/sobaka-porody-korgi/"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: id дробное число
+            meta:
+              id: req_006ed9d2f2104c57b089bffdc17d262d
+              created: 1776862807921
+              modified: 1777399006870
+              isPrivate: false
+              description: >-
+                принимает дробное значение id и автоматически преобразует его в
+                целое, вместо возврата ошибки валидации
+
+
+                изменяет переданное значение id без уведомления клиента, что
+                приводит к несоответствию между отправленными и сохранёнными
+                данными. Такое поведение делает систему непредсказуемой и может
+                вызывать ошибки при дальнейшей работе с ресурсом
+              sortKey: -1776612359217
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+
+                  "id": 3.5,
+                  "name": "Дробный",
+                  "photoUrls": [
+                    "https://ethnomir.ru/articles/sobaka-porody-korgi/"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: id очень большое число
+            meta:
+              id: req_44831148de9a45e2899c60ef76624ea0
+              created: 1776866590242
+              modified: 1777383777136
+              isPrivate: false
+              description: передаче слишком большого значения id, вместо ошибки валидации,
+                сервер не обработал его корректно и упал с ошибкой 500
+              sortKey: -1776612359342
+            method: POST
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": 7835734858534958453459348593458349583495,
+                  "name": "Robert",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+
+
+
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: GET /pet/{petId}
+    meta:
+      id: fld_cc371965c16945479da9814dc385ca7a
+      created: 1776612602432
+      modified: 1777383981531
+      sortKey: -1776619018121
+      description: Получение существующего питомца по id
+    children:
+      - name: Negative
+        meta:
+          id: fld_0f863679aac743fdb96311379d59cc8d
+          created: 1776612904335
+          modified: 1777383981531
+          sortKey: -1776612904335
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet/abc"
+            name: id строка
+            meta:
+              id: req_df58f450e8914765a4c45abee62f8e95
+              created: 1776612931575
+              modified: 1777398858333
+              isPrivate: false
+              description: При передаче некорректного значения id возвращает 404 Not Found с
+                внутренней ошибкой NumberFormatException, вместо ожидаемой
+                ошибки валидации (400 Invalid ID supplied). Это указывает на
+                некорректную обработку входных данных и раскрытие внутренней
+                реализации
+              sortKey: -1776612635577.5
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 400', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(400);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/-1"
+            name: id отрицательный
+            meta:
+              id: req_50d2c4fa2aa74f8f8af03327ebc66901
+              created: 1776866251521
+              modified: 1776866558568
+              isPrivate: false
+              description: |-
+                ожидался код 400 
+                Invalid ID supplied
+              sortKey: -1776612497859.75
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 400', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(400);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/7835734858534958453459348593458349583495"
+            name: id long
+            meta:
+              id: req_3e116b35c28e489da03ee556f0a2103f
+              created: 1776866760535
+              modified: 1777398875320
+              isPrivate: false
+              description: >-
+                возвращает 404 с внутренней ошибкой NumberFormatException при
+                передаче некорректного id, вместо ожидаемого 400 Invalid ID
+                supplied
+
+
+                раскрывает детали внутренней реализации
+                (java.lang.NumberFormatException)
+              sortKey: -1776612429000.875
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 400', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(400);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/999997675"
+            name: Несуществующий id
+            meta:
+              id: req_9646fe7ac3e24b0e8dd0c9be56b95a4f
+              created: 1776934722996
+              modified: 1777383455966
+              isPrivate: false
+              description: ""
+              sortKey: -1776612773395.25
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 404', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(404);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/09"
+            name: Ведущие нули в id
+            meta:
+              id: req_636a846030354b57b7158574c2585237
+              created: 1776935086443
+              modified: 1777398849188
+              isPrivate: false
+              description: неявно преобразовывает значение petId с ведущими нулями (например,
+                09 -> 9), не уведомляя клиента, что может приводить к
+                неоднозначной интерпретации данных
+              sortKey: -1776612704486.375
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 400', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(400);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: GET /pet/findByStatus
+    meta:
+      id: fld_7e36b2255226486799f1ad5e350c4d6a
+      created: 1776615371470
+      modified: 1777386322673
+      sortKey: -1776619018096
+      description: Получение существующего питомца(ев) по статусу
+    children:
+      - name: Positive
+        meta:
+          id: fld_fecd7c06e14547bfaa12db2b3bc34f52
+          created: 1776616510638
+          modified: 1776867119975
+          sortKey: -1776616510638
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet/findByStatus"
+            name: Валидный статус
+            meta:
+              id: req_084da030006c4f978c21d26500f4745e
+              created: 1776617607869
+              modified: 1776867114974
+              isPrivate: false
+              description: ""
+              sortKey: -1776617607869
+            method: GET
+            parameters:
+              - name: status
+                value: sold
+                disabled: false
+            headers:
+              - name: accept
+                value: application/json
+            scripts:
+              afterResponse: >-
+                const jsonBody = insomnia.response.json();
+
+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+
+                insomnia.test('Check that all pets have status = sold', () => {
+                    insomnia.expect(Array.isArray(jsonBody)).to.eql(true);
+
+                    jsonBody.forEach((pet, index) => {
+                        insomnia.expect(pet.status, `Invalid status at index ${index}`)
+                            .to.eql("sold");
+                    });
+                });
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Negative
+        meta:
+          id: fld_c2e75392106e451ea247e7e10c90ff8e
+          created: 1776618416876
+          modified: 1777385048091
+          sortKey: -1776618416876
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet/findByStatus"
+            name: Невалидный статус
+            meta:
+              id: req_fdf8516b30bd474b82f589cbe14388f3
+              created: 1776618151907
+              modified: 1777398812269
+              isPrivate: false
+              description: >2+
+                 принимает значение status, не входящее в допустимый список
+                (Available values : available, pending, sold), и возвращает 200
+                OK с данными, вместо ожидаемой ошибки валидации, что указывает
+                на отсутствие проверки допустимых значений
+
+              sortKey: -1776618422591
+            method: GET
+            parameters:
+              - name: status
+                value: DOG
+                disabled: false
+            headers:
+              - name: accept
+                value: application/json
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 400', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(400);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/findByStatus"
+            name: Статус не передан
+            meta:
+              id: req_9f78a35cc4dc4279b36df02abec15a4b
+              created: 1776618397777
+              modified: 1777398818173
+              isPrivate: false
+              description: При отсутствии параметра status  возвращает 200 OK с пустым
+                результатом, несмотря на то что параметр является обязательным
+                согласно документации. Запрос должен отклоняться с ошибкой
+                валидации
+              sortKey: -1776618422491
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 400', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(400);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/findByStatus"
+            name: Статус в верхнем регистре
+            meta:
+              id: req_20d34cb85c014ba3b8233cf89a60d169
+              created: 1776619309035
+              modified: 1777398804599
+              isPrivate: false
+              description: >-
+                Значения status, отличающиеся только регистром (например, sold и
+                SOLD), обрабатываются как разные, что приводит к
+                неконсистентному поведению
+
+
+                Рекомендуется нормализовать значение status (например, приводить
+                к нижнему регистру) перед валидацией и созданием, чтобы избежать
+                дублирования и несогласованности данных
+              sortKey: -1776618422691
+            method: GET
+            parameters:
+              - name: status
+                value: SOLD
+                disabled: false
+            headers:
+              - name: accept
+                value: application/json
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: GET /pet/findByTags
+    meta:
+      id: fld_77acd145c565431a9b2cc789fe64cd6b
+      created: 1776619018071
+      modified: 1777386263673
+      sortKey: -1776619018089.75
+      description: Получение существующего питомца(ев) по тегам
+    children:
+      - name: Positive
+        meta:
+          id: fld_baae38934bae407ea4c99e7cf330a645
+          created: 1776620217825
+          modified: 1777385599271
+          sortKey: -1776620217825
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet/findByTags"
+            name: 1 тег
+            meta:
+              id: req_f55c85542aa94cac82069d0841387fab
+              created: 1776619591088
+              modified: 1776869089107
+              isPrivate: false
+              description: ""
+              sortKey: -1776620231052
+            method: GET
+            parameters:
+              - name: tags
+                value: тегнутый питомец корги собака
+                disabled: false
+            headers:
+              - name: accept
+                value: application/json
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Создаем питомца с уникальными тегами
+            meta:
+              id: req_803a7ca66f714ec49ab213be03e48521
+              created: 1776619917133
+              modified: 1776620231189
+              isPrivate: false
+              description: Создали питомца с уникальными тегами для проверки метода поиска по
+                тегам
+              sortKey: -1776620231152
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "id": 34598123,
+                  "name": "Уникальный тегнутый питомец",
+                  "photoUrls": [
+                    "https://ethnomir.ru/articles/sobaka-porody-korgi/"
+                  ],
+                  "tags": [
+                    {
+                      "id": 77042,
+                      "name": "тегнутый питомец корги собака"
+                    },
+                    {
+                      "id": 45425,
+                      "name": "дважды тегнутый питомец корги собака"
+                		}
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/findByTags"
+            name: Несколько тегов
+            meta:
+              id: req_a76588e64aed4391bc0f59133cd29018
+              created: 1776620113213
+              modified: 1777398786683
+              isPrivate: false
+              description: При передаче нескольких значений параметра tags учитывает только
+                первое значение, игнорируя остальные. Результат зависит от
+                порядка параметров, что указывает на некорректную реализацию
+                фильтрации
+              sortKey: -1776620230952
+            method: GET
+            parameters:
+              - name: tags
+                value: трижды тегнутый питомец корги собака
+                description: ""
+                disabled: false
+              - name: tags
+                value: дважды тегнутый питомец корги собака
+                disabled: false
+            headers:
+              - name: accept
+                value: application/json
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Создаем еще питомца с уникальными тегами
+            meta:
+              id: req_aed17a7bc057404abc892b3ac7add308
+              created: 1776869078643
+              modified: 1776869290180
+              isPrivate: false
+              description: Создали питомца с уникальными тегами для проверки метода поиска по
+                тегам
+              sortKey: -1776620231102
+            method: POST
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                  "id": 34598124,
+                  "name": "Второй уникальный тегнутый питомец",
+                  "photoUrls": [
+                    "https://ethnomir.ru/articles/sobaka-porody-korgi/"
+                  ],
+                  "tags": [
+                    {
+                      "id": 77042,
+                      "name": "тегнутый питомец корги собака"
+                    },
+                    {
+                      "id": 45425,
+                      "name": "трижды тегнутый питомец корги собака"
+                		}
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Negative
+        meta:
+          id: fld_99add13457d049478c096cc805ee0773
+          created: 1776620253978
+          modified: 1777386263673
+          sortKey: -1776620253978
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet/findByTags"
+            name: Несуществующий тег
+            meta:
+              id: req_8d5dcbbf818f4d11befccb7d9225c8d8
+              created: 1776620286940
+              modified: 1776868950458
+              isPrivate: false
+              description: Поиск по tags возвращает коллекцию, поэтому при отсутствии данных
+                возвращается пустой список (200 OK). Допустимо
+              sortKey: -1776620289736
+            method: GET
+            parameters:
+              - name: tags
+                value: ториррлдапгргрнаншош
+                disabled: false
+            headers:
+              - name: accept
+                value: application/json
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 404', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(404);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/findByTags"
+            name: Теги не переданы
+            meta:
+              id: req_4be703ccd65145b695a1f765fd4d816f
+              created: 1776620421359
+              modified: 1777398673385
+              isPrivate: false
+              description: При отсутствии тегов возвращает 200 OK с пустым результатом,
+                несмотря на то что параметр является обязательным согласно
+                документации. Запрос должен отклоняться с ошибкой валидации
+              sortKey: -1776620421359
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 400', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(400);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: "PUT /pet "
+    meta:
+      id: fld_d35480f49459487d99c15af0c0a63dd8
+      created: 1776623725266
+      modified: 1777387177452
+      sortKey: -1776619018088.1875
+      description: Обновление существующего питомца
+    children:
+      - name: Positive
+        meta:
+          id: fld_25dfb29840f6443b8fad3d4fcc2ac1f9
+          created: 1776624028936
+          modified: 1777386955468
+          sortKey: -1776625683966
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet"
+            name: Удаление непереданных полей при обновлении
+            meta:
+              id: req_0d3c29a9f6044b48bf167b1348c64124
+              created: 1776623867246
+              modified: 1777387349674
+              isPrivate: false
+              description: >
+                Проверка того, что при обновлении через PUT непереданные поля
+                удаляются, так как метод выполняет полную замену ресурса
+              sortKey: -1776621324512.75
+            method: PUT
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": {{ _.last_pet_id }},
+                  "name": "Robert Put 1",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: Проверка
+            meta:
+              id: req_389641c2cda64ca7b8449a1a1399903e
+              created: 1776624089521
+              modified: 1776684405228
+              isPrivate: false
+              description: ""
+              sortKey: -1776621324562.75
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Добавление категории существующему питомцу
+            meta:
+              id: req_c74aba0be8c8444bb82f4140644bb2ef
+              created: 1776624231494
+              modified: 1777386747279
+              isPrivate: false
+              description: ""
+              sortKey: -1776624034374
+            method: PUT
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": {{ _.last_pet_id }},
+                  "name": "Robert Put 1",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ],
+                  "category": {
+                   	"id": 1,
+                   	"name": "Dogs"
+                  }
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Добавление тегов существующему питомцу
+            meta:
+              id: req_0fd905869e974575b1794ed35a0c3e05
+              created: 1776624353450
+              modified: 1777386753072
+              isPrivate: false
+              description: ""
+              sortKey: -1776622227866.5
+            method: PUT
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": {{ _.last_pet_id }},
+                  "name": "Robert Put 1",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ],
+                  "category": {
+                   	"id": 1,
+                   	"name": "Dogs"
+                  },
+                  "tags": [
+                    {
+                      "id": 1430,
+                      "name": "taggggggg"
+                    }]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Добавление статуса существующему питомцу
+            meta:
+              id: req_d3c5812e4e0c4af7bc3efe67b6106cfd
+              created: 1776624456516
+              modified: 1777386757739
+              isPrivate: false
+              description: ""
+              sortKey: -1776621776227.125
+            method: PUT
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": {{ _.last_pet_id }},
+                  "name": "Robert Put 1",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ],
+                  "category": {
+                   	"id": 1,
+                   	"name": "Dogs"
+                  },
+                  "tags": [
+                    {
+                      "id": 1430,
+                      "name": "taggggggg"
+                    }],
+                  "status": "available"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Обновить имя сущ. питомца
+            meta:
+              id: req_cc995042eee14b4fa377f2d71e373cb2
+              created: 1777386712115
+              modified: 1777386720077
+              isPrivate: false
+              description: ""
+              sortKey: -1776624034474
+            method: PUT
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": {{ _.last_pet_id }},
+                  "name": "Robert Put 1",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Negative
+        meta:
+          id: fld_258b6b221a3c44408774d19763e7c251
+          created: 1776625683866
+          modified: 1777387177452
+          sortKey: -1776625683866
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet"
+            name: Отсутствие обязательного поля name
+            meta:
+              id: req_650a92fb540c408699fba6942df90c7e
+              created: 1776625713099
+              modified: 1777398523201
+              isPrivate: false
+              description: >+
+                принимает PUT-запрос без обязательного поля name и успешно
+                обновляет сущность, в результате чего поле удаляется, это
+                приводит к потере данных и нарушению целостности объекта
+
+              sortKey: -1776625718308
+            method: PUT
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": {{ _.last_pet_id }},
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Отсутствие обязательного поля photoUrls
+            meta:
+              id: req_d777ff519a4348468d5b015686483ff3
+              created: 1776625975168
+              modified: 1777398534568
+              isPrivate: false
+              description: >+
+                принимает PUT-запрос без обязательного photoUrls и успешно
+                обновляет сущность, в результате чего данные поля удаляются, это
+                приводит к потере данных и нарушению целостности объекта
+
+              sortKey: -1776624876341
+            method: PUT
+            body:
+              mimeType: application/json
+              text: |-
+                {
+                	"id": {{ _.last_pet_id }},
+                  "name": "Robert Put"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: id несуществующего питомца
+            meta:
+              id: req_f0067d89704946c493504b6be0545593
+              created: 1776626139908
+              modified: 1777386996593
+              isPrivate: false
+              description: создает новую сущность хотя должен вернуть 404 если такого ID нет
+              sortKey: -1776624455357.5
+            method: PUT
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": 9999999009,
+                  "name": "Robert Exist Dog 9",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 404', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(404);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Добавление невалидного статуса
+            meta:
+              id: req_9d5cf41dd13548e585f377f0df785a6d
+              created: 1776684774682
+              modified: 1777387263835
+              isPrivate: false
+              description: Метод PUT, как и POST, принимает невалидные значения поля status,
+                что указывает на отсутствие валидации допустимых значений
+              sortKey: -1776624455257.5
+            method: PUT
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                	"id": {{ _.last_pet_id }},
+                  "name": "Robert Exist Dog",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ],
+                  "status": "ПЕС"
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: Пустое тело запроса
+            meta:
+              id: req_eac133e7bd6444edb70c7e9f0f8644d5
+              created: 1776685793342
+              modified: 1776864026684
+              isPrivate: false
+              description: |-
+                То же самое что и пустое тело запроса в методе POST
+
+                Изменяет дефолтную сущность со старым добрым "универсальным" id
+              sortKey: -1776625718333
+            method: PUT
+            body:
+              mimeType: application/json
+              text: "{}"
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: id не передан
+            meta:
+              id: req_7656284265544d59a6036f2607a8709b
+              created: 1776864044199
+              modified: 1777387064152
+              isPrivate: false
+              description: >-
+                обновляет дефолтную сущность хотя должен вернуть 405 (Validation
+                exception)
+
+
+                Поле id не обозначено как обязательное, однако используется для
+                идентификации сущности при обновлении. Отсутствие id должно
+                приводить к ошибке валидации. Без id невозможно определить,
+                какую сущность обновлять
+              sortKey: -1776624455307.5
+            method: PUT
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                  "name": "RobertWithoutID",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: id невалидный -98
+            meta:
+              id: req_c796ae69f30c40de952f6ca9d52d425d
+              created: 1776864692443
+              modified: 1777398623862
+              isPrivate: false
+              description: >
+                Обновляет дефолтную сущность хотя должен вернуть 400 (Invalid ID
+                supplied)
+
+                принимает невалидные значения id и подменяет их, что нарушает
+                ожидаемую логику обработки входных данных
+              sortKey: -1776624455282.5
+            method: PUT
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                  "id": -98,
+                	"name": "RobertWithoutID",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 400', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(400);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet"
+            name: id невалидный -08
+            meta:
+              id: req_881dd1ec1f9b420781b555dbc3a9ef60
+              created: 1776865045019
+              modified: 1777398631364
+              isPrivate: false
+              description: >
+                по-разному обрабатывает одинаково невалидные значения id
+
+                тут он выдает нужную нам ошибку 400
+
+
+                неконсистентно валидирует отрицательные значения id: в одном
+                случае возвращает ошибку, а в другом принимает запрос и
+                обновляет дефолтную сущность
+              sortKey: -1776624455270
+            method: PUT
+            body:
+              mimeType: application/json
+              text: >-
+                {
+                  "id": -09,
+                	"name": "RobertWithoutID",
+                  "photoUrls": [
+                    "https://www.purina.ru/find-a-pet/dog-breeds/welsh-corgi-pembroke"
+                  ]
+                }
+            headers:
+              - name: Content-Type
+                value: application/json
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 400', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(400);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: POST /pet/{petId}
+    meta:
+      id: fld_f19e533d251f4eb99070a8d6a54088d1
+      created: 1776685894201
+      modified: 1777387923095
+      sortKey: -1776619018087.7969
+      description: Поведение валидации поля status и name идентично POST /pet — сервер
+        обрабатывает form data и JSON одинаково.
+    children:
+      - name: Positive
+        meta:
+          id: fld_569ec3a5c2894eeabef7ba344cf3ee5a
+          created: 1776686209454
+          modified: 1777387870271
+          sortKey: -1776686220685
+          description: Метод обновления работает корректно, однако возвращает
+            неинформативный ответ, не содержащий обновлённые данные.
+        children:
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: Проверка
+            meta:
+              id: req_6564f11d9be74c07a9cc1e242ce55539
+              created: 1776686545712
+              modified: 1776872486180
+              isPrivate: false
+              description: |+
+                Проверяем обновление методом POST /pet/{petId}
+
+              sortKey: -1776686288667
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: Обновляем имя сущ. питомца
+            meta:
+              id: req_9b4023702e5c4f1399914ef90d226483
+              created: 1776871837651
+              modified: 1776872715224
+              isPrivate: false
+              description: ответ не отражает обновлённые данные, что делает его
+                неинформативным
+              sortKey: -1776871837651
+            method: POST
+            body:
+              mimeType: application/x-www-form-urlencoded
+              params:
+                - name: name
+                  value: RobertPostUpdateName
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: application/x-www-form-urlencoded
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: Обновляем статус сущ. питомца
+            meta:
+              id: req_aba1c51ccca64437ba6cfcc5ec8e0158
+              created: 1776871982906
+              modified: 1776872707084
+              isPrivate: false
+              description: ответ не отражает обновлённые данные, что делает его
+                неинформативным
+              sortKey: -1776864957115.5
+            method: POST
+            body:
+              mimeType: application/x-www-form-urlencoded
+              params:
+                - name: status
+                  value: available
+                  description: ""
+                  disabled: false
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: application/x-www-form-urlencoded
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: Обновляем имя и статус сущ. питомца
+            meta:
+              id: req_da94e54d62cc4ffebf0b33e1bd10b546
+              created: 1776872057870
+              modified: 1776872701651
+              isPrivate: false
+              description: ответ не отражает обновлённые данные, что делает его
+                неинформативным
+              sortKey: -1776861516847.75
+            method: POST
+            body:
+              mimeType: application/x-www-form-urlencoded
+              params:
+                - name: status
+                  value: pending
+                  description: ""
+                  disabled: false
+                - name: name
+                  value: RobertALLForm
+                  description: ""
+                  disabled: false
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: application/x-www-form-urlencoded
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Negative
+        meta:
+          id: fld_20e468d9621d4964a5f844277cf18086
+          created: 1776686220585
+          modified: 1777387923095
+          sortKey: -1776686220585
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: Пустые значения name и status
+            meta:
+              id: req_906a1931e9094b30a1478c9386dc9358
+              created: 1776872528739
+              modified: 1777398345690
+              isPrivate: false
+              description: возвращает 200 OK при отсутствии параметров в запросе, однако
+                изменения не применяются, метод не выполняет валидацию входных
+                данных и не сообщает об ошибке, что делает поведение неочевидным
+              sortKey: -1776688936024.75
+            method: POST
+            body:
+              mimeType: application/x-www-form-urlencoded
+              params:
+                - name: name
+                  value: ""
+                - name: status
+                  value: ""
+                  description: ""
+                  disabled: false
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: application/x-www-form-urlencoded
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: Невалидный status
+            meta:
+              id: req_87de0eb5a62d4e43b0d6b6b961bc87e8
+              created: 1776872608358
+              modified: 1777398352758
+              isPrivate: false
+              description: принимает невалидное значение поля status, возвращает 200 OK и
+                сохраняет его (проверил гет-запросом), что указывает на
+                отсутствие валидации входных данных, поведение такое же как и в
+                POST/pet
+              sortKey: -1776688746933.125
+            method: POST
+            body:
+              mimeType: application/x-www-form-urlencoded
+              params:
+                - name: status
+                  value: статус
+                  description: ""
+                  disabled: false
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: application/x-www-form-urlencoded
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/999876665"
+            name: id несуществующего питомца
+            meta:
+              id: req_e921d5ce658e4e78acfdf7177e312b9f
+              created: 1776872628782
+              modified: 1777387795214
+              isPrivate: false
+              description: ""
+              sortKey: -1776688274204.0625
+            method: POST
+            body:
+              mimeType: application/x-www-form-urlencoded
+              params:
+                - name: name
+                  value: RobertPostUpdateName
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: application/x-www-form-urlencoded
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 404', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(404);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: name пробельная строка
+            meta:
+              id: req_e658ee36e14a4e4592d9a85ba9ced811
+              created: 1776873099053
+              modified: 1777398450011
+              isPrivate: false
+              description: принимает значение поля name, состоящее только из пробельных
+                символов, возвращает 200 OK и сохраняет его, это указывает на
+                отсутствие валидации содержимого поля и допускает сохранение
+                невалидных данных, поведение такое-же как и POST/pet
+              sortKey: -1776688510568.5938
+            method: POST
+            body:
+              mimeType: application/x-www-form-urlencoded
+              params:
+                - name: name
+                  value: " "
+                  description: ""
+                  disabled: false
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: application/x-www-form-urlencoded
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: name спецсимволы
+            meta:
+              id: req_f997c5efcd424dfaa6ab3380eb58ab9b
+              created: 1776873528009
+              modified: 1777398460805
+              isPrivate: false
+              description: принимает значение поля name, содержащее специальные символы,
+                возвращает 200 OK и сохраняет его, это указывает на отсутствие
+                валидации содержимого поля и допускает сохранение невалидных
+                данных, поведение такое же POST/pet
+              sortKey: -1776688392386.3281
+            method: POST
+            body:
+              mimeType: application/x-www-form-urlencoded
+              params:
+                - name: name
+                  value: <;.<>@[
+                  description: ""
+                  disabled: false
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: application/x-www-form-urlencoded
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/pet"
+            name: id некорректный
+            meta:
+              id: req_75114923494b45e8a605ff263137b6be
+              created: 1776873666034
+              modified: 1777398476035
+              isPrivate: false
+              description: При передаче некорректного значения id  возвращает 404 Not Found с
+                внутренней ошибкой NumberFormatException, вместо ожидаемой
+                ошибки 400 (Invalid ID supplied), это указывает на некорректную
+                обработку входных данных и раскрытие внутренней реализации
+                сервера
+              sortKey: -1776687281435.5312
+            method: POST
+            body:
+              mimeType: application/x-www-form-urlencoded
+              params:
+                - name: name
+                  value: RobertPostUpdateName
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: application/x-www-form-urlencoded
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 400', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(400);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: POST /pet/{petId}/uploadImage
+    meta:
+      id: fld_973045e7919d44058956c694103d2f34
+      created: 1776884352933
+      modified: 1777390207054
+      sortKey: -1776619018087.6992
+      description: ""
+    children:
+      - name: Positive
+        meta:
+          id: fld_c389f11c228f43da9cf82fd2e1d19679
+          created: 1776884364843
+          modified: 1777389334488
+          sortKey: -1776884376769
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}/uploadImage"
+            name: Передача изображения PNG
+            meta:
+              id: req_3ac427fae1e84118a51f951555b5a0d8
+              created: 1776928757391
+              modified: 1776930290366
+              isPrivate: false
+              description: >-
+                Метод POST /pet/{petId}/uploadImage возвращает успешный ответ о
+                загрузке файла, однако загруженное изображение не связывается с
+                сущностью питомца и не отражается в его данных (например, в
+                photoUrls). Использование petId в пути и название метода вводят
+                в заблуждение, создавая ожидание, что файл будет привязан к
+                питомцу.
+
+
+                Поведение метода uploadImage не соответствует ожидаемой логике:
+                изображение не сохраняется в модели питомца и не может быть
+                получено через API
+              sortKey: -1776928757591
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: file
+                  fileName: /Users/ivanperevozchikov/Downloads/окружение.png
+                  type: file
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: multipart/form-data
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: "Проверка добавления "
+            meta:
+              id: req_f95f0db01d5849988121b5599a16d9c9
+              created: 1776929253146
+              modified: 1776930085389
+              isPrivate: false
+              description: ""
+              sortKey: -1776928757566
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}/uploadImage"
+            name: Передача изображения и метаданных
+            meta:
+              id: req_a02fbfb84d544079ad00ccc5542c65d0
+              created: 1776930137998
+              modified: 1776930241819
+              isPrivate: false
+              description: ""
+              sortKey: -1776900297596
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: file
+                  fileName: /Users/ivanperevozchikov/Downloads/окружение.png
+                  type: file
+                - name: additionalMetadata
+                  value: фото питомца
+                  description: ""
+                  disabled: false
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: multipart/form-data
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}/uploadImage"
+            name: Передача изображения JPG
+            meta:
+              id: req_7f21595447dd4fe8ba566dff58100462
+              created: 1776930303323
+              modified: 1777389318671
+              isPrivate: false
+              description: ""
+              sortKey: -1776928757578.5
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: file
+                  fileName: /Users/ivanperevozchikov/Downloads/JPG.jpg
+                  type: file
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: multipart/form-data
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Negative
+        meta:
+          id: fld_78f614a3621d4755a3d72d78bc8a5607
+          created: 1776884376669
+          modified: 1777390207054
+          sortKey: -1776884376669
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet/999999999876665/uploadImage"
+            name: Несуществующий id
+            meta:
+              id: req_8a324957b3bf4c42a7da68b3b0429ac3
+              created: 1776930035309
+              modified: 1776930779865
+              isPrivate: false
+              description: >-
+                Метод uploadImage принимает petId, однако не использует его в
+                логике обработки, что делает параметр фиктивным и вводит клиента
+                в заблуждение, Файл сохраняется независимо от того, существует
+                питомец или нет.
+
+
+                petId присутствует в URL, но не влияет ни на обработку запроса,
+                ни на результат
+              sortKey: -1776930140711
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: file
+                  fileName: /Users/ivanperevozchikov/Downloads/окружение.png
+                  type: file
+                - name: additionalMetadata
+                  value: фото питомца
+                  description: ""
+                  disabled: false
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: multipart/form-data
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 404', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(404);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}/uploadImage"
+            name: Поле file отсутствует
+            meta:
+              id: req_8b5e150fb4b2473b97e6e42bc64be68a
+              created: 1776930991734
+              modified: 1777390085746
+              isPrivate: false
+              description: >-
+                Поведение API зависит от того, какой параметр отсутствует:
+                отсутствие file приводит к внутренней ошибке, в то время как
+                отсутствие metadata обрабатывается корректно.
+
+
+                Поле file не обозначено как обязательное в спецификации, однако
+                фактически является обязательным: при его отсутствии API
+                возвращает 500 Internal Server Error, что указывает на
+                зависимость метода от данного параметра
+              sortKey: -1776929449151
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: additionalMetadata
+                  value: фото питомца
+                  description: ""
+                  disabled: false
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: multipart/form-data
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}/uploadImage"
+            name: Файл не типа Изображение
+            meta:
+              id: req_1296830f474547f7890120ef736821b9
+              created: 1776931238370
+              modified: 1777390246032
+              isPrivate: false
+              description: При загрузке .py файла сервер возвращает 200. Метод называется
+                uploadImage, однако валидация типа файла отсутствует —
+                принимается любой формат
+              sortKey: -1776929103371
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: file
+                  value: ""
+                  description: ""
+                  disabled: false
+                  fileName: /Users/ivanperevozchikov/Downloads/итерация_брауна_робинсона.py
+                  type: file
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: multipart/form-data
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}/uploadImage"
+            name: Изображение 0B
+            meta:
+              id: req_3d785bfae09842c987f531cc4db0c275
+              created: 1776931409302
+              modified: 1777390236148
+              isPrivate: false
+              description: ""
+              sortKey: -1776928930481
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: file
+                  value: ""
+                  description: ""
+                  disabled: false
+                  fileName: /Users/ivanperevozchikov/Downloads/Файл 0B.jpg
+                  type: file
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: multipart/form-data
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}/uploadImage"
+            name: Изображение 100MB
+            meta:
+              id: req_c68b2516a96d40eea64d4a35185ffee2
+              created: 1776931501465
+              modified: 1777390230530
+              isPrivate: false
+              description: >-
+                При загрузке большого файла запрос завершается по таймауту без
+                корректного ответа от сервера. API не обрабатывает превышение
+                допустимого размера файла и не возвращает информативную ошибку
+
+
+                Ограничение на размер файла не задокументировано и не
+                обрабатывается
+              sortKey: -1776928844036
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: file
+                  value: ""
+                  description: ""
+                  disabled: false
+                  fileName: /Users/ivanperevozchikov/Downloads/image-100mb.jpg
+                  type: file
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: multipart/form-data
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}/uploadImage"
+            name: Пустая форма
+            meta:
+              id: req_74cf903bac9044959a35c3dd9c875e99
+              created: 1776932546963
+              modified: 1777390138659
+              isPrivate: false
+              description: ""
+              sortKey: -1776929189816
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: file
+                  value: ""
+                  description: ""
+                  disabled: false
+                - name: additionalMetadata
+                  value: ""
+                  description: ""
+                  disabled: false
+            headers:
+              - name: accept
+                value: application/json
+              - name: Content-Type
+                value: multipart/form-data
+            scripts:
+              afterResponse: |+
+                insomnia.test('Check if status is 405', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(405);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+  - name: "DELETE /pet/{petId} "
+    meta:
+      id: fld_8f6446aadc4d4f45b26329056bd44691
+      created: 1776934433915
+      modified: 1777399982338
+      sortKey: -1776619018087.6016
+      description: ""
+    children:
+      - name: Positive
+        meta:
+          id: fld_ac0a5eac766246d3a01cd5194d5a0b92
+          created: 1776934634906
+          modified: 1777390289407
+          sortKey: -1776934645609
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: Убедились в удалении
+            meta:
+              id: req_d6047d0d31c843d1a82f7612e32a0f14
+              created: 1776612806505
+              modified: 1776934845694
+              isPrivate: false
+              description: ""
+              sortKey: -1776934687637
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.4.0
+                description: ""
+                disabled: false
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 404', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(404);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: Удалить существующего питомца
+            meta:
+              id: req_8c0d8b8fb72d439da1def2143fae57dc
+              created: 1776934687537
+              modified: 1776934825094
+              isPrivate: false
+              description: ""
+              sortKey: -1776934687737
+            method: DELETE
+            headers:
+              - name: accept
+                value: application/json
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 200', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(200);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+      - name: Negative
+        meta:
+          id: fld_75229da654974804ae3c8ab5fb5fc76e
+          created: 1776934645509
+          modified: 1777390509243
+          sortKey: -1776934645509
+          description: ""
+        children:
+          - url: "{{ _.base_url }}/pet/{{ _.last_pet_id }}"
+            name: Удалить повторно удаленного питомца
+            meta:
+              id: req_fd9aff79ddb6450c8c1c41457eded0e2
+              created: 1776934771639
+              modified: 1777390278905
+              isPrivate: false
+              description: ""
+              sortKey: -1776934774164
+            method: DELETE
+            headers:
+              - name: accept
+                value: application/json
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 404', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(404);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/02"
+            name: Ведущие 0 в id
+            meta:
+              id: req_088ba33139a744308307173cb1b8390a
+              created: 1776934926122
+              modified: 1777399081270
+              isPrivate: false
+              description: >-
+                неявно преобразовывает значение petId с ведущими нулями
+                (например, 02 -> 2), не уведомляя клиента, что может приводить к
+                неоднозначной интерпретации данных
+
+                Ожидалось ошибка валидации
+              sortKey: -1776934730950.5
+            method: DELETE
+            headers:
+              - name: accept
+                value: application/json
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 400', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(400);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/abc"
+            name: id строка
+            meta:
+              id: req_68ab3818c9374410b9cb60f678865461
+              created: 1776935169971
+              modified: 1777399088883
+              isPrivate: false
+              description: При передаче некорректного значения id  возвращает 404 Not Found с
+                внутренней ошибкой NumberFormatException, вместо ожидаемой
+                ошибки валидации (400 Invalid ID supplied). Это указывает на
+                некорректную обработку входных данных и раскрытие внутренней
+                реализации сервера
+              sortKey: -1776934709343.75
+            method: DELETE
+            headers:
+              - name: accept
+                value: application/json
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 400', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(400);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.base_url }}/pet/-1"
+            name: id отрицательный
+            meta:
+              id: req_b7a299e0e3024aaaa90c40e86bded019
+              created: 1777390420107
+              modified: 1777399098228
+              isPrivate: false
+              description: При передаче некорректного значения id возвращает 404 Not, вместо
+                ожидаемой ошибки валидации (400 Invalid ID supplied)
+              sortKey: -1776934698540.375
+            method: DELETE
+            headers:
+              - name: accept
+                value: application/json
+            scripts:
+              afterResponse: |+
+                
+                insomnia.test('Check if status is 400', () => {
+                    insomnia.expect(insomnia.response.code).to.eql(400);
+                });
+
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_b08f93890f47a6199b764935945c2047791252b0
+    created: 1776601602407
+    modified: 1777390509241
+environments:
+  name: Base Environment
+  meta:
+    id: env_b08f93890f47a6199b764935945c2047791252b0
+    created: 1776601602406
+    modified: 1777390509242
+    isPrivate: false
+  data:
+    base_url: https://petstore.swagger.io/v2
+    last_pet_id: 783573485
